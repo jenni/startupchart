@@ -1,0 +1,10 @@
+body {
+  text-align: center;
+  font-family: 'Codystar', 'Josefin Sans', 'Helvetica Neue', 'Helvetica', 'Arial';
+  color: black;
+}
+
+.chart {
+  border-radius: 7px;
+  margin-top: 2% !important;
+}
