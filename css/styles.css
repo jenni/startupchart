@@ -2,9 +2,12 @@ body {
   text-align: center;
   font-family: 'Codystar', 'Josefin Sans', 'Helvetica Neue', 'Helvetica', 'Arial';
   color: black;
+  background-color: white;
+  text-transform: uppercase !important;
 }
 
 .chart {
+  padding:20px;
   border-radius: 7px;
   margin-top: 2% !important;
 }

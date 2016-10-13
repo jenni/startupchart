@@ -1,5 +1,6 @@
 require 'net/http'
 require 'uri'
+require 'csv'
 
 #import = require
 # = in python are : in ruby // headers={} headers:
@@ -33,4 +34,6 @@ companies = companies.map do |company|
   [c[0], c[1].to_i]
 end # do ... end = { }
 
-  puts companies
+CSV.open('companies.csv', 'w') do |csv|
+  csv << companies
+end
