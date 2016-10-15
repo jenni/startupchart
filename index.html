@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="css/styles.css">
   <script src="Chart.bundle.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script type ="text/javascript" src="./companies.json"></script>
   <style>
   canvas {
     -moz-user-select: none;
@@ -40,6 +41,26 @@
     -->
   </div>
     <script>
+/*
+    Date.prototype.formatMMDDYYYY = function() {
+    return (this.getMonth() + 1) +
+    "/" +  this.getDate() +
+    "/" +  this.getFullYear();
+    }
+*/
+    var jsonData = $.ajax({
+      url: 'https://api.myjson.com/bins/4prxo',
+      dataType: 'json',
+    }).done(function (results) {
+
+      // Split timestamp and data into separate arrays
+    var label =[], values=[];
+    results["companies"].forEach(function(company) {
+      debugger;
+      label.push(company["label"]);
+      values.push(company["values"]);
+      });
+
     var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     var randomScalingFactor = function() {
       return Math.round(Math.random() * 100 * (Math.random() > 0.5 ? -1 : 1));
@@ -56,7 +77,7 @@
       data: {
         labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         datasets: [        {
-          label: "Company 1",
+          label: label,
           fill: false,
           lineTension: 0.1,
           backgroundColor: "rgba(75,192,192,0.4)",
@@ -74,10 +95,11 @@
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
-          data: [10, 22, 10, 42, 31],
+          data: values,
           spanGaps: false,
         }, {
-          label: "Company 2",
+
+          label: label,
           fill: false,
           lineTension: 0.1,
           backgroundColor: "rgba(75,192,192,0.4)",
@@ -95,7 +117,7 @@
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
-          data: [20, 10, 50, 60, 35, 32, 32, 32, 31],
+          data: values,
           spanGaps: false,
         }, {
           label: "Company 3",
@@ -193,6 +215,8 @@
       }
     };
 
+
+
     $.each(config.data.datasets, function(i, dataset) {
       var background = randomColor(0.5);
       dataset.borderColor = background;
@@ -202,10 +226,10 @@
       dataset.pointBorderWidth = 1;
     });
 
-    window.onload = function() {
+    debugger;
       var ctx = document.getElementById("canvas").getContext("2d");
       window.myLine = new Chart(ctx, config);
-    };
+
 
     $('#randomizeData').click(function() {
       $.each(config.data.datasets, function(i, dataset) {
@@ -266,6 +290,7 @@
 
       window.myLine.update();
     });
+})
     </script>
 </body>
 

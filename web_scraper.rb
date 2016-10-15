@@ -20,14 +20,30 @@ jobs_array = jobs_array.map! do |job|
   j = job.scan(/(.+)\((\d+)\)/).flatten
   [j[0], j[1].to_i]
 end
-
+=begin
 jobs_array << ["Liefery ", 3]
 jobs_array << ["Liefery ", 5]
-
+=end
 #from array to hash
 jobs_hash = Hash[jobs_array]
 #group these companies, each in a hash ¿(object)?
-jobs_hash = jobs_hash.map {|k,v| {label: k, values: [[v]]}}
+jobs_hash = jobs_hash.map {|k,v| {label: k, data: [v]}}
+
+puts jobs_hash.inspect
+
+companies_json = []
+# loop through the array of hashes
+jobs_hash.each do |hash|
+  companies_json << hash.to_json
+end
+
+ puts array_of_json # array of JSON objects
+
+
+File.open('companies.json', 'w') do |f|
+  f << companies_json
+end
+
 
 #
 # add new element from gathering data to end of value array
@@ -37,7 +53,13 @@ jobs_hash = jobs_hash.map {|k,v| {label: k, values: [[v]]}}
 
 #Pry.start(binding)
 
+################################################################################
 #push array into CSV files
 #CSV.open('jobs.csv', 'w') do |csv|
 #  csv << jobs_hash
 #end
+#time = Time.new
+#yaxis = time.strftime("%Y-%m-%d")
+#yaxis = yaxis.split().inspect
+#jobs_hash << yaxis
+#puts jobs_hash.inspect
