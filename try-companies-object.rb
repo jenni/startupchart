@@ -21,11 +21,11 @@ jobs_array = jobs_array.map! do |job|
   j = job.scan(/(.+)\((\d+)\)/).flatten
   [j[0], j[1].to_i]
 end
-#read the json empty file - parse it to ruby
+#read the json empty file - parse it to ruby ## Party??
 file = File.read('companies.json')
 data_hash = JSON.parse(file)
 
-data_hash = data_hash.map do |k|
+data_hash = data_hash["companies"].map do |k|
   k = JSON.parse(k)
   [k["label"], k["values"]] #if empty, skips, otherwise match
 end
@@ -40,21 +40,37 @@ end
 #add label: and values: to hash
 data_hash = data_hash.map {|k,v| {label: k, values: v}}
 
-companies_json = []
+companies_json = { companies: [] }
 
 # loop through the array of hashes
-data_hash.each do |hash|
-  companies_json << hash.to_json
-end
+
+  companies_json[:companies] << hash.to_json
 
 
 File.open('companies.json', 'w') do |f|
-  f << companies_json
+  f << companies_json.to_json
 end
 
+page = HTTParty.put('https://api.myjson.com/bins/3wmjw',
+  :body => companies_json,
+  :headers => {'Content-Type' => 'application/json'})
 
-page = HTTParty.put('https://api.myjson.com/bins/33750',
-  :body => companies_json.to_json,
-  :headers => {'Content-Type' => 'application/json; charset=utf-8'})
+puts page.inspect
+#
+# add new element from gathering data to end of value array
+# jobs_hash.insert(-1, 'v') ?
 
-puts companies_json.to_json.inspect
+
+
+#Pry.start(binding)
+
+################################################################################
+#push array into CSV files
+#CSV.open('jobs.csv', 'w') do |csv|
+#  csv << jobs_hash
+#end
+#time = Time.new
+#yaxis = time.strftime("%Y-%m-%d")
+#yaxis = yaxis.split().inspect
+#jobs_hash << yaxis
+#puts jobs_hash.inspect
