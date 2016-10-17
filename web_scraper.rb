@@ -3,6 +3,7 @@ require 'Nokogiri'
 require 'JSON'
 require 'Pry'
 require 'csv'
+require 'byebug'
 
 time = Time.new
 #requesting the page we're scraping
@@ -52,9 +53,12 @@ File.open('companies.json', 'w') do |f|
   f << companies_json
 end
 
+e = companies_json.map {|e| JSON.parse(e)}
+result = {"companies" => e}.to_json
+
 
 page = HTTParty.put('https://api.myjson.com/bins/33750',
-  :body => companies_json.to_json,
+  :body => result,
   :headers => {'Content-Type' => 'application/json; charset=utf-8'})
 
-puts companies_json.to_json.inspect
+puts result.inspect
