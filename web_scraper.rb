@@ -2,7 +2,6 @@ require 'HTTParty'
 require 'Nokogiri'
 require 'JSON'
 require 'Pry'
-require 'csv'
 require 'byebug'
 
 time = Time.new
@@ -23,6 +22,7 @@ jobs_array = jobs_array.map! do |job|
   [j[0], j[1].to_i]
 end
 #read the json empty file - parse it to ruby
+
 file = File.read('companies.json')
 data_hash = JSON.parse(file)
 
@@ -47,7 +47,6 @@ companies_json = []
 data_hash.each do |hash|
   companies_json << hash.to_json
 end
-
 
 File.open('companies.json', 'w') do |f|
   f << companies_json
