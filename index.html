@@ -4,19 +4,18 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Top 5 BSJ Chart</title>
-  <meta name="description" content="BSJ Top 5 Open Positions">
+  <title>Berlin Startup Chart</title>
+  <meta name="description" content="Berlin Startup open positions chart">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href='https://fonts.googleapis.com/css?family=Product+Sans' rel='stylesheet' type='text/css'>
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Codystar|Gloria+Hallelujah|Modak" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script src="https://use.fontawesome.com/2788426916.js"></script>
   <link rel="stylesheet" href="css/styles.css">
+  <script src="typed.js"></script>
   <script src="Chart.bundle.js"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script type ="text/javascript" src="./companies.json"></script>
   <style>
   canvas {
     -moz-user-select: none;
@@ -27,375 +26,390 @@
 </head>
 
 <body>
-      <h1>>_BERLINSTARTUPCHART</h1>
-      <div class="chart sm-col-12 md-col-12" style="width:80%; margin:0 auto;">
-        <canvas id="canvas"></canvas>
-      </div>
-
-      <button id="randomizeData">Randomize Data</button>
-      <!--
-      <button id="addDataset">Add Dataset</button>
-      <button id="removeDataset">Remove Dataset</button>
-      <button id="addData">Add Data</button>
-      <button id="removeData">Remove Data</button>
-    -->
+  <h1><span id="title">>_BERLINSTARTUPCHART</span></h1>
+  <div class="chart md-col-12" style="width:80%; margin:0 auto;">
+    <canvas id="canvas"></canvas>
   </div>
-    <script>
-/*
-    Date.prototype.formatMMDDYYYY = function() {
-    return (this.getMonth() + 1) +
-    "/" +  this.getDate() +
-    "/" +  this.getFullYear();
-    }
-*/
-    var jsonData = $.ajax({
-      url: 'https://api.myjson.com/bins/33750',
-      dataType: 'json',
-    }).done(function (results) {
+  <!--
+  <button id="randomizeData">Randomize Data</button>
+  <button id="addDataset">Add Dataset</button>
+  <button id="removeDataset">Remove Dataset</button>
+  <button id="addData">Add Data</button>
+  <button id="removeData">Remove Data</button>
+-->
+</div>
+<!--
+<script>
+$(function(){
+  $("#title").typed({
+    strings: [">_BERLINSTARTUPCHART"],
+    typeSpeed: 70,
+    startDelay: 3000,
+    showCursor: true,
+    // character for cursor
+    cursorChar: "|"
+  });
+});
+</script>
+-->
+<script>
 
-    var label =[], values=[];
-    results["companies"].forEach(function(company) {
+var jsonData = $.ajax({
+  url: 'https://api.myjson.com/bins/33750',
+  dataType: 'json',
+}).done(function (results) {
 
-      label.push(company["label"]);
-      values.push(company["values"]);
-      });
+  var label =[], values=[];
+  results["companies"].forEach(function(company) {
 
-    var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    var randomScalingFactor = function() {
-      return Math.round(Math.random() * 100 * (Math.random() > 0.5 ? -1 : 1));
-    };
-    var randomColorFactor = function() {
-      return Math.round(Math.random() * 255);
-    };
-    var randomColor = function(opacity) {
-      return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
-    };
+    label.push(company["label"]);
+    values.push(company["values"]);
+  });
 
-    var config = {
-      type: 'line',
-      data: {
-        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-        datasets: [        {
-          label: label[0],
-          fill: false,
-          lineTension: 0.1,
-          backgroundColor: "rgba(75,192,192,0.4)",
-          borderColor: "rgba(75,192,192,1)",
-          borderCapStyle: 'butt',
-          borderDash: [],
-          borderDashOffset: 0.0,
-          borderJoinStyle: 'miter',
-          pointBorderColor: "rgba(75,192,192,1)",
-          pointBackgroundColor: "#fff",
-          pointBorderWidth: 1,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: "rgba(75,192,192,1)",
-          pointHoverBorderColor: "rgba(220,220,220,1)",
-          pointHoverBorderWidth: 2,
-          pointRadius: 1,
-          pointHitRadius: 10,
-          data: values[0],
-          spanGaps: false,
-        }, {
+  var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  var randomScalingFactor = function() {
+    return Math.round(Math.random() * 100 * (Math.random() > 0.5 ? -1 : 1));
+  };
+  var randomColorFactor = function() {
+    return Math.round(Math.random() * 255);
+  };
+  var randomColor = function(opacity) {
+    return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
+  };
 
-          label: label[1],
-          fill: false,
-          lineTension: 0.1,
-          backgroundColor: "rgba(75,192,192,0.4)",
-          borderColor: "rgba(75,192,192,1)",
-          borderCapStyle: 'butt',
-          borderDash: [],
-          borderDashOffset: 0.0,
-          borderJoinStyle: 'miter',
-          pointBorderColor: "rgba(75,192,192,1)",
-          pointBackgroundColor: "#fff",
-          pointBorderWidth: 1,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: "rgba(75,192,192,1)",
-          pointHoverBorderColor: "rgba(220,220,220,1)",
-          pointHoverBorderWidth: 2,
-          pointRadius: 1,
-          pointHitRadius: 10,
-          data: values[1],
-          spanGaps: false,
-        }, {
-          label: label[2],
-          fill: false,
-          lineTension: 0.1,
-          backgroundColor: "rgba(75,192,192,0.4)",
-          borderColor: "rgba(75,192,192,1)",
-          borderCapStyle: 'butt',
-          borderDash: [],
-          borderDashOffset: 0.0,
-          borderJoinStyle: 'miter',
-          pointBorderColor: "rgba(75,192,192,1)",
-          pointBackgroundColor: "#fff",
-          pointBorderWidth: 1,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: "rgba(75,192,192,1)",
-          pointHoverBorderColor: "rgba(220,220,220,1)",
-          pointHoverBorderWidth: 2,
-          pointRadius: 1,
-          pointHitRadius: 10,
-          data: values[2],
-          spanGaps: false,
-        }, {
-          label: label[3],
-          fill: false,
-          lineTension: 0.1,
-          backgroundColor: "rgba(75,192,192,0.4)",
-          borderColor: "rgba(75,192,192,1)",
-          borderCapStyle: 'butt',
-          borderDash: [],
-          borderDashOffset: 0.0,
-          borderJoinStyle: 'miter',
-          pointBorderColor: "rgba(75,192,192,1)",
-          pointBackgroundColor: "#fff",
-          pointBorderWidth: 1,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: "rgba(75,192,192,1)",
-          pointHoverBorderColor: "rgba(220,220,220,1)",
-          pointHoverBorderWidth: 2,
-          pointRadius: 1,
-          pointHitRadius: 10,
-          data: values[3],
-          spanGaps: false,
-        }, {
-          label: label[4],
-          fill: false,
-          lineTension: 0.1,
-          backgroundColor: "rgba(75,192,192,0.4)",
-          borderColor: "rgba(75,192,192,1)",
-          borderCapStyle: 'butt',
-          borderDash: [],
-          borderDashOffset: 0.0,
-          borderJoinStyle: 'miter',
-          pointBorderColor: "rgba(75,192,192,1)",
-          pointBackgroundColor: "#fff",
-          pointBorderWidth: 1,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: "rgba(75,192,192,1)",
-          pointHoverBorderColor: "rgba(220,220,220,1)",
-          pointHoverBorderWidth: 2,
-          pointRadius: 1,
-          pointHitRadius: 10,
-          data: values[4],
-          spanGaps: false,
-        },/*{
-          label: label[5],
-          fill: false,
-          lineTension: 0.1,
-          backgroundColor: "rgba(75,192,192,0.4)",
-          borderColor: "rgba(75,192,192,1)",
-          borderCapStyle: 'butt',
-          borderDash: [],
-          borderDashOffset: 0.0,
-          borderJoinStyle: 'miter',
-          pointBorderColor: "rgba(75,192,192,1)",
-          pointBackgroundColor: "#fff",
-          pointBorderWidth: 1,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: "rgba(75,192,192,1)",
-          pointHoverBorderColor: "rgba(220,220,220,1)",
-          pointHoverBorderWidth: 2,
-          pointRadius: 1,
-          pointHitRadius: 10,
-          data: values[5],
-          spanGaps: false,
-        },{
-          label: label[6],
-          fill: false,
-          lineTension: 0.1,
-          backgroundColor: "rgba(75,192,192,0.4)",
-          borderColor: "rgba(75,192,192,1)",
-          borderCapStyle: 'butt',
-          borderDash: [],
-          borderDashOffset: 0.0,
-          borderJoinStyle: 'miter',
-          pointBorderColor: "rgba(75,192,192,1)",
-          pointBackgroundColor: "#fff",
-          pointBorderWidth: 1,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: "rgba(75,192,192,1)",
-          pointHoverBorderColor: "rgba(220,220,220,1)",
-          pointHoverBorderWidth: 2,
-          pointRadius: 1,
-          pointHitRadius: 10,
-          data: values[6],
-          spanGaps: false,
-        },{
-          label: label[7],
-          fill: false,
-          lineTension: 0.1,
-          backgroundColor: "rgba(75,192,192,0.4)",
-          borderColor: "rgba(75,192,192,1)",
-          borderCapStyle: 'butt',
-          borderDash: [],
-          borderDashOffset: 0.0,
-          borderJoinStyle: 'miter',
-          pointBorderColor: "rgba(75,192,192,1)",
-          pointBackgroundColor: "#fff",
-          pointBorderWidth: 1,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: "rgba(75,192,192,1)",
-          pointHoverBorderColor: "rgba(220,220,220,1)",
-          pointHoverBorderWidth: 2,
-          pointRadius: 1,
-          pointHitRadius: 10,
-          data: values[7],
-          spanGaps: false,
-        },{
-          label: label[8],
-          fill: false,
-          lineTension: 0.1,
-          backgroundColor: "rgba(75,192,192,0.4)",
-          borderColor: "rgba(75,192,192,1)",
-          borderCapStyle: 'butt',
-          borderDash: [],
-          borderDashOffset: 0.0,
-          borderJoinStyle: 'miter',
-          pointBorderColor: "rgba(75,192,192,1)",
-          pointBackgroundColor: "#fff",
-          pointBorderWidth: 1,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: "rgba(75,192,192,1)",
-          pointHoverBorderColor: "rgba(220,220,220,1)",
-          pointHoverBorderWidth: 2,
-          pointRadius: 1,
-          pointHitRadius: 10,
-          data: values[8],
-          spanGaps: false,
-        },{
-          label: label[9],
-          fill: false,
-          lineTension: 0.1,
-          backgroundColor: "rgba(75,192,192,0.4)",
-          borderColor: "rgba(75,192,192,1)",
-          borderCapStyle: 'butt',
-          borderDash: [],
-          borderDashOffset: 0.0,
-          borderJoinStyle: 'miter',
-          pointBorderColor: "rgba(75,192,192,1)",
-          pointBackgroundColor: "#fff",
-          pointBorderWidth: 1,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: "rgba(75,192,192,1)",
-          pointHoverBorderColor: "rgba(220,220,220,1)",
-          pointHoverBorderWidth: 2,
-          pointRadius: 1,
-          pointHitRadius: 10,
-          data: values[9],
-          spanGaps: false,
-        }*/]
-      },
-      options: {
-        responsive: true,
-        legend: {
-          position: 'bottom',
-        },
-        hover: {
-          mode: 'label'
-        },
-        scales: {
-          xAxes: [{
-            display: true,
-            scaleLabel: {
-              display: true,
-              labelString: 'Month'
-            }
-          }],
-          yAxes: [{
-            display: true,
-            scaleLabel: {
-              display: true,
-              labelString: 'Open Positions'
-            }
-          }]
-        },
-        title: {
-          display: true,
-          text: 'TOP 5, 2016'
-        }
+  var config = {
+    type: 'line',
+    data: {
+      labels: ["16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"],
+      datasets: [        {
+        label: label[0],
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: "rgba(75,192,192,0.4)",
+        borderColor: "rgba(75,192,192,1)",
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: "rgba(75,192,192,1)",
+        pointBackgroundColor: "#fff",
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+        pointHoverBorderColor: "rgba(220,220,220,1)",
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: values[0],
+        spanGaps: false,
+      }, {
+
+        label: label[1],
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: "rgba(75,192,192,0.4)",
+        borderColor: "rgba(75,192,192,1)",
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: "rgba(75,192,192,1)",
+        pointBackgroundColor: "#fff",
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+        pointHoverBorderColor: "rgba(220,220,220,1)",
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: values[1],
+        spanGaps: false,
+      }, {
+        label: label[2],
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: "rgba(75,192,192,0.4)",
+        borderColor: "rgba(75,192,192,1)",
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: "rgba(75,192,192,1)",
+        pointBackgroundColor: "#fff",
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+        pointHoverBorderColor: "rgba(220,220,220,1)",
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: values[2],
+        spanGaps: false,
+      }, {
+        label: label[3],
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: "rgba(75,192,192,0.4)",
+        borderColor: "rgba(75,192,192,1)",
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: "rgba(75,192,192,1)",
+        pointBackgroundColor: "#fff",
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+        pointHoverBorderColor: "rgba(220,220,220,1)",
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: values[3],
+        spanGaps: false,
+      }, {
+        label: label[4],
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: "rgba(75,192,192,0.4)",
+        borderColor: "rgba(75,192,192,1)",
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: "rgba(75,192,192,1)",
+        pointBackgroundColor: "#fff",
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+        pointHoverBorderColor: "rgba(220,220,220,1)",
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: values[4],
+        spanGaps: false,
+      },{
+        label: label[5],
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: "rgba(75,192,192,0.4)",
+        borderColor: "rgba(75,192,192,1)",
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: "rgba(75,192,192,1)",
+        pointBackgroundColor: "#fff",
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+        pointHoverBorderColor: "rgba(220,220,220,1)",
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: values[5],
+        spanGaps: false,
+      },{
+      label: label[6],
+      fill: false,
+      lineTension: 0.1,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      data: values[6],
+      spanGaps: false,
+    },/*{
+    label: label[7],
+    fill: false,
+    lineTension: 0.1,
+    backgroundColor: "rgba(75,192,192,0.4)",
+    borderColor: "rgba(75,192,192,1)",
+    borderCapStyle: 'butt',
+    borderDash: [],
+    borderDashOffset: 0.0,
+    borderJoinStyle: 'miter',
+    pointBorderColor: "rgba(75,192,192,1)",
+    pointBackgroundColor: "#fff",
+    pointBorderWidth: 1,
+    pointHoverRadius: 5,
+    pointHoverBackgroundColor: "rgba(75,192,192,1)",
+    pointHoverBorderColor: "rgba(220,220,220,1)",
+    pointHoverBorderWidth: 2,
+    pointRadius: 1,
+    pointHitRadius: 10,
+    data: values[7],
+    spanGaps: false,
+  },{
+  label: label[8],
+  fill: false,
+  lineTension: 0.1,
+  backgroundColor: "rgba(75,192,192,0.4)",
+  borderColor: "rgba(75,192,192,1)",
+  borderCapStyle: 'butt',
+  borderDash: [],
+  borderDashOffset: 0.0,
+  borderJoinStyle: 'miter',
+  pointBorderColor: "rgba(75,192,192,1)",
+  pointBackgroundColor: "#fff",
+  pointBorderWidth: 1,
+  pointHoverRadius: 5,
+  pointHoverBackgroundColor: "rgba(75,192,192,1)",
+  pointHoverBorderColor: "rgba(220,220,220,1)",
+  pointHoverBorderWidth: 2,
+  pointRadius: 1,
+  pointHitRadius: 10,
+  data: values[8],
+  spanGaps: false,
+},{
+label: label[9],
+fill: false,
+lineTension: 0.1,
+backgroundColor: "rgba(75,192,192,0.4)",
+borderColor: "rgba(75,192,192,1)",
+borderCapStyle: 'butt',
+borderDash: [],
+borderDashOffset: 0.0,
+borderJoinStyle: 'miter',
+pointBorderColor: "rgba(75,192,192,1)",
+pointBackgroundColor: "#fff",
+pointBorderWidth: 1,
+pointHoverRadius: 5,
+pointHoverBackgroundColor: "rgba(75,192,192,1)",
+pointHoverBorderColor: "rgba(220,220,220,1)",
+pointHoverBorderWidth: 2,
+pointRadius: 1,
+pointHitRadius: 10,
+data: values[9],
+spanGaps: false,
+}*/]
+},
+options: {
+  responsive: true,
+  legend: {
+    position: 'bottom',
+  },
+  hover: {
+    mode: 'label'
+  },
+  scales: {
+    xAxes: [{
+      display: true,
+      scaleLabel: {
+        display: true,
+        labelString: 'October'
       }
-    };
+    }],
+    yAxes: [{
+      display: true,
+      scaleLabel: {
+        display: true,
+        labelString: 'Open Positions'
+      }
+    }]
+  },
+  title: {
+    display: true,
+    text: 'TOP 5, who\'s hiring?'
+  }
+}
+};
 
 
+
+$.each(config.data.datasets, function(i, dataset) {
+  var background = randomColor(0.5);
+  dataset.borderColor = background;
+  dataset.backgroundColor = background;
+  dataset.pointBorderColor = background;
+  dataset.pointBackgroundColor = background;
+  dataset.pointBorderWidth = 1;
+});
+
+debugger;
+var ctx = document.getElementById("canvas").getContext("2d");
+window.myLine = new Chart(ctx, config);
+
+
+$('#randomizeData').click(function() {
+  $.each(config.data.datasets, function(i, dataset) {
+    dataset.data = dataset.data.map(function() {
+      return randomScalingFactor();
+    });
+
+  });
+
+  window.myLine.update();
+});
+
+$('#addDataset').click(function() {
+  var background = randomColor(0.5);
+  var newDataset = {
+    label: 'Dataset ' + config.data.datasets.length,
+    borderColor: background,
+    backgroundColor: background,
+    pointBorderColor: background,
+    pointBackgroundColor: background,
+    pointBorderWidth: 1,
+    fill: false,
+    data: [],
+  };
+
+  for (var index = 0; index < config.data.labels.length; ++index) {
+    newDataset.data.push(randomScalingFactor());
+  }
+
+  config.data.datasets.push(newDataset);
+  window.myLine.update();
+});
+
+$('#addData').click(function() {
+  if (config.data.datasets.length > 0) {
+    var month = MONTHS[config.data.labels.length % MONTHS.length];
+    config.data.labels.push(month);
 
     $.each(config.data.datasets, function(i, dataset) {
-      var background = randomColor(0.5);
-      dataset.borderColor = background;
-      dataset.backgroundColor = background;
-      dataset.pointBorderColor = background;
-      dataset.pointBackgroundColor = background;
-      dataset.pointBorderWidth = 1;
+      dataset.data.push(randomScalingFactor());
     });
 
-    debugger;
-      var ctx = document.getElementById("canvas").getContext("2d");
-      window.myLine = new Chart(ctx, config);
+    window.myLine.update();
+  }
+});
 
+$('#removeDataset').click(function() {
+  config.data.datasets.splice(0, 1);
+  window.myLine.update();
+});
 
-    $('#randomizeData').click(function() {
-      $.each(config.data.datasets, function(i, dataset) {
-        dataset.data = dataset.data.map(function() {
-          return randomScalingFactor();
-        });
+$('#removeData').click(function() {
+  config.data.labels.splice(-1, 1); // remove the label first
 
-      });
+  config.data.datasets.forEach(function(dataset, datasetIndex) {
+    dataset.data.pop();
+  });
 
-      window.myLine.update();
-    });
-
-    $('#addDataset').click(function() {
-      var background = randomColor(0.5);
-      var newDataset = {
-        label: 'Dataset ' + config.data.datasets.length,
-        borderColor: background,
-        backgroundColor: background,
-        pointBorderColor: background,
-        pointBackgroundColor: background,
-        pointBorderWidth: 1,
-        fill: false,
-        data: [],
-      };
-
-      for (var index = 0; index < config.data.labels.length; ++index) {
-        newDataset.data.push(randomScalingFactor());
-      }
-
-      config.data.datasets.push(newDataset);
-      window.myLine.update();
-    });
-
-    $('#addData').click(function() {
-      if (config.data.datasets.length > 0) {
-        var month = MONTHS[config.data.labels.length % MONTHS.length];
-        config.data.labels.push(month);
-
-        $.each(config.data.datasets, function(i, dataset) {
-          dataset.data.push(randomScalingFactor());
-        });
-
-        window.myLine.update();
-      }
-    });
-
-    $('#removeDataset').click(function() {
-      config.data.datasets.splice(0, 1);
-      window.myLine.update();
-    });
-
-    $('#removeData').click(function() {
-      config.data.labels.splice(-1, 1); // remove the label first
-
-      config.data.datasets.forEach(function(dataset, datasetIndex) {
-        dataset.data.pop();
-      });
-
-      window.myLine.update();
-    });
+  window.myLine.update();
+});
 })
-    </script>
+</script>
+<footer class="footer">
+  <div class="sm-col sm-col-12">
+    <span><a href="https://github.com/jen-v" target="_blank"><i class="lk fa fa-github-alt fa-lg"></i></a></span>
+    <span><a href="mailto: jvarelalijo at gmail dot com" target="_blank"><i class="lk fa fa-envelope fa-lg"></i></a></span>
+    <span><a href="https://www.linkedin.com/in/jen-lijo"><i class="lk fa fa-linkedin-square fa-lg" target="_blank"></i></a></span>
+  </div>
+</footer>
+
 </body>
 
 </html>
